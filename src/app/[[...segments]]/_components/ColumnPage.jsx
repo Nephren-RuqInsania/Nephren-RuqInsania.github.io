@@ -1,30 +1,7 @@
 import Link from 'next/link'
-import { notFound } from 'next/navigation'
 import MarkdownBody from '@/components/MarkdownBody'
-import { getColumn, getColumns } from '@/lib/content'
 
-export const dynamicParams = false
-
-export async function generateStaticParams() {
-  const columns = await getColumns()
-  return columns.map(({ slug }) => ({ column: slug }))
-}
-
-async function loadColumn(params) {
-  const { column } = await params
-  const entry = await getColumn(column)
-  if (!entry) notFound()
-  return entry
-}
-
-export async function generateMetadata({ params }) {
-  const { title } = await loadColumn(params)
-  return { title }
-}
-
-export default async function ColumnPage({ params }) {
-  const { slug, title, content, posts } = await loadColumn(params)
-
+export default function ColumnPage({ column: { slug, title, content, posts } }) {
   return (
     <>
       <h1 className="mb-4 text-3xl font-bold">{title}</h1>
