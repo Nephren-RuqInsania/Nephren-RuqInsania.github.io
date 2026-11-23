@@ -1,34 +1,8 @@
 import Link from 'next/link'
-import { notFound } from 'next/navigation'
 import MarkdownBody from '@/components/MarkdownBody'
-import { getColumn, getColumns } from '@/lib/content'
 import styles from './article.module.css'
 
-export const dynamicParams = false
-
-export async function generateStaticParams() {
-  const columns = await getColumns()
-  return columns.flatMap(({ slug: column, posts }) =>
-    posts.map(({ slug }) => ({ column, slug })),
-  )
-}
-
-async function loadPost(params) {
-  const { column, slug } = await params
-  const entry = await getColumn(column)
-  const post = entry?.posts.find((item) => item.slug === slug)
-  if (!post) notFound()
-  return { column: entry, post }
-}
-
-export async function generateMetadata({ params }) {
-  const { post } = await loadPost(params)
-  return { title: post.title, description: post.summary || undefined }
-}
-
-export default async function PostPage({ params }) {
-  const { column, post } = await loadPost(params)
-
+export default function PostPage({ column, post }) {
   return (
     <article className="max-w-[72ch]">
       <header className="mb-7 border-b border-slate-200 pb-6 sm:mb-9 sm:pb-8">
