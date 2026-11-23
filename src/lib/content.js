@@ -2,6 +2,7 @@ import { readFile, readdir } from 'node:fs/promises'
 import path from 'node:path'
 import matter from 'gray-matter'
 import { cache } from 'react'
+import { parseThemeMetadata } from '../themes/theme-metadata.js'
 
 export const markdownDirectory = 'markdown-blog'
 
@@ -9,7 +10,7 @@ const contentDir = path.join(process.cwd(), markdownDirectory)
 const slugPattern = /^[a-z0-9]+(?:-[a-z0-9]+)*$/
 const reservedColumns = new Set(['404', '500'])
 
-async function readMarkdown(...segments) {
+async function readMarkdown(segments, parseMetadata) {
   const file = path.join(markdownDirectory, ...segments)
   const source = await readFile(path.join(contentDir, ...segments), 'utf8')
   const { data, content } = matter(source)
@@ -24,6 +25,7 @@ async function readMarkdown(...segments) {
   }
 
   return {
+    ...parseMetadata?.(data, file),
     title: data.title.trim(),
     summary: typeof data.summary === 'string' ? data.summary.trim() : '',
     date: date ?? '',
@@ -83,7 +85,7 @@ async function readPosts(column) {
       throw new Error(`Duplicate post slug "${slug}": ${existing.sourcePath} and ${sourcePath}`)
     }
 
-    const post = await readMarkdown(...segments)
+    const post = await readMarkdown(segments, parseThemeMetadata)
     const assets = hasAssets ? await readAssetFiles(path.join(postDirectory, 'assets')) : []
     posts.set(slug, { slug, sourcePath, ...post, assets })
   }
@@ -99,7 +101,7 @@ async function readColumn(slug) {
     throw new Error(`${path.join(markdownDirectory, slug, 'index.md')}: invalid or reserved column slug`)
   }
 
-  const intro = await readMarkdown(slug, 'index.md')
+  const intro = await readMarkdown([slug, 'index.md'], parseThemeMetadata)
   const posts = entries.some((entry) => entry.isDirectory() && entry.name === 'posts')
     ? await readPosts(slug)
     : []
@@ -107,7 +109,7 @@ async function readColumn(slug) {
   return { slug, ...intro, posts }
 }
 
-export const getHome = cache(() => readMarkdown('home.md'))
+export const getHome = cache(() => readMarkdown(['home.md']))
 
 export const getColumns = cache(async () => {
   const entries = await readdir(contentDir, { withFileTypes: true })

@@ -1,0 +1,60 @@
+/* VitePress Light also covers pages with no saved choice or recommendation. */
+:root {
+  color-scheme: light;
+  --blog-canvas: #fff;
+  --blog-text: #3c3c43;
+  --blog-heading: var(--blog-text);
+  --blog-muted: #67676c;
+  --blog-surface: #f6f6f7;
+  --blog-border: #e2e2e3;
+  --blog-link: #3451b2;
+  --blog-header-canvas: var(--blog-canvas);
+  --blog-sidebar-canvas: #f6f6f7;
+  --blog-sidebar-text: var(--blog-text);
+  --blog-sidebar-muted: var(--blog-muted);
+  --blog-sidebar-surface: #ebebef;
+  --blog-sidebar-border: var(--blog-border);
+  --blog-sidebar-link: var(--blog-link);
+}
+
+/* Any recommendation takes priority only while following is on. */
+:root[data-follow-theme="true"]:has([data-recommended-theme="starlight-dark"]),
+:root[data-selected-theme="starlight-dark"]:not([data-follow-theme="true"]:has([data-recommended-theme])) {
+  color-scheme: dark;
+  --blog-canvas: hsl(224 10% 10%);
+  --blog-text: hsl(224 6% 77%);
+  --blog-heading: #fff;
+  --blog-muted: hsl(224 6% 66%);
+  --blog-surface: hsl(224 10% 23%);
+  --blog-border: var(--blog-surface);
+  --blog-link: hsl(224 100% 85%);
+  --blog-header-canvas: hsl(224 14% 16%);
+  --blog-sidebar-canvas: var(--blog-header-canvas);
+  --blog-sidebar-surface: var(--blog-surface);
+}
+
+/* Inspired by the Rust Book's warm-gray paper, brown sidebar, and copper accent. */
+:root[data-follow-theme="true"]:has([data-recommended-theme="rust"]),
+:root[data-selected-theme="rust"]:not([data-follow-theme="true"]:has([data-recommended-theme])) {
+  --blog-canvas: #e1e1db;
+  --blog-text: #262625;
+  --blog-muted: #262625;
+  --blog-surface: #d6d5cb;
+  --blog-border: #b5b0a3;
+  --blog-link: #8c391f;
+  --blog-sidebar-canvas: #3b2e2a;
+  --blog-sidebar-text: #f0e7e0;
+  --blog-sidebar-muted: #d6c5ba;
+  --blog-sidebar-surface: #4c3a33;
+  --blog-sidebar-border: #997e6e;
+  --blog-sidebar-link: #e69f67;
+}
+
+.blog-sidebar {
+  --blog-canvas: var(--blog-sidebar-canvas);
+  --blog-text: var(--blog-sidebar-text);
+  --blog-muted: var(--blog-sidebar-muted);
+  --blog-surface: var(--blog-sidebar-surface);
+  --blog-border: var(--blog-sidebar-border);
+  --blog-link: var(--blog-sidebar-link);
+}

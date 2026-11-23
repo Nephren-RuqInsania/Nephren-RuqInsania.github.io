@@ -1,5 +1,6 @@
 import { notFound } from 'next/navigation'
 import { getColumn, getColumns, getHome } from '@/lib/content'
+import { resolveRecommendedTheme } from '@/themes/theme-metadata'
 import ColumnPage from './_components/ColumnPage'
 import HomePage from './_components/HomePage'
 import PostPage from './_components/PostPage'
@@ -41,7 +42,15 @@ export async function generateMetadata({ params }) {
 
 export default async function BlogPage({ params }) {
   const { home, column, post } = await loadPage(params)
-  if (home) return <HomePage home={home} />
-  if (post) return <PostPage column={column} post={post} />
-  return <ColumnPage column={column} />
+  const recommendedTheme = resolveRecommendedTheme(column?.theme, post?.theme)
+
+  return (
+    <div data-recommended-theme={recommendedTheme}>
+      {post ? <PostPage column={column} post={post} /> : (
+        <div className="page-frame">
+          {home ? <HomePage home={home} /> : <ColumnPage column={column} />}
+        </div>
+      )}
+    </div>
+  )
 }

@@ -15,7 +15,7 @@
 }
 
 .lineStart::before {
-  @apply text-slate-600;
+  @apply text-blog-muted;
   content: attr(data-line);
   position: absolute;
   inset-inline-end: 1em;
