@@ -1,0 +1,64 @@
+@reference "../../globals.css";
+
+.body {
+  @apply text-base leading-[1.8] text-slate-800 sm:text-lg;
+  overflow-wrap: anywhere;
+}
+
+.body > * {
+  margin-block: 0;
+}
+
+.body > * + * {
+  @apply mt-5;
+}
+
+.body > :where(h1, h2, h3, h4, h5, h6):not(:first-child) {
+  @apply mt-8 sm:mt-10;
+}
+
+.body > :where(h1, h2, h3, h4, h5, h6) + :where(p, ul, ol) {
+  @apply mt-3;
+}
+
+.body :where(h1, h2, h3, h4, h5, h6) {
+  @apply leading-snug font-semibold text-slate-950;
+}
+
+.body :where(h1, h2) {
+  @apply text-2xl;
+}
+
+.body :where(h3) {
+  @apply text-xl;
+}
+
+.body :where(a) {
+  @apply text-sky-800 underline underline-offset-4;
+}
+
+.body :where(li + li, blockquote p + p) {
+  @apply mt-1;
+}
+
+.body :where(blockquote) {
+  @apply rounded-r border-l-4 border-slate-300 bg-slate-50 px-4 py-2;
+}
+
+.body :where(pre) {
+  @apply rounded-lg border border-slate-200 bg-slate-50 p-4 text-sm leading-relaxed;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.body :where(:not(pre) > code) {
+  @apply rounded bg-slate-100 px-1.5 py-0.5 text-[0.9em];
+}
+
+.body :where(img) {
+  @apply mx-auto h-auto max-w-full rounded-lg;
+}
+
+.body :where(hr) {
+  @apply border-slate-200;
+}

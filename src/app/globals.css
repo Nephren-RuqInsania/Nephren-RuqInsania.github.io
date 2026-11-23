@@ -1,0 +1,96 @@
+@import "tailwindcss";
+
+@layer components {
+  .scroll-pane {
+    @apply min-h-0 min-w-0 overflow-y-auto overscroll-y-contain;
+  }
+
+  .scroll-pane:focus-visible {
+    @apply outline-2 -outline-offset-2 outline-sky-700;
+  }
+
+  .markdown {
+    @apply space-y-4 leading-relaxed;
+  }
+
+  .markdown :where(h2, h3, h4, h5, h6) {
+    @apply mt-6 font-semibold;
+  }
+
+  .markdown h2 {
+    @apply text-xl;
+  }
+
+  .markdown a {
+    @apply underline underline-offset-4;
+  }
+
+  .markdown ul {
+    @apply list-disc pl-6;
+  }
+
+  .markdown ol {
+    @apply list-decimal pl-6;
+  }
+
+  .markdown pre {
+    @apply overflow-x-auto rounded bg-slate-100 p-4 text-sm;
+  }
+
+  .markdown :not(pre) > code {
+    @apply rounded bg-slate-100 px-1 text-sm;
+  }
+
+  .markdown blockquote {
+    @apply border-l-2 border-slate-300 pl-4 text-slate-700;
+  }
+
+  .markdown-table {
+    @apply max-w-full overflow-x-auto rounded-lg border border-slate-200;
+    overscroll-behavior-x: contain;
+  }
+
+  .markdown-table:focus-visible {
+    @apply outline-2 -outline-offset-2 outline-sky-700;
+  }
+
+  .markdown-table table {
+    @apply min-w-full border-collapse text-sm;
+  }
+
+  .markdown-table :where(th, td) {
+    @apply min-w-24 border-r border-b border-slate-200 px-3 py-2 align-top;
+  }
+
+  .markdown-table :where(th, td):last-child {
+    @apply border-r-0;
+  }
+
+  .markdown-table tbody tr:last-child td {
+    @apply border-b-0;
+  }
+
+  .markdown-table th {
+    @apply bg-slate-50 text-left font-semibold;
+  }
+
+  .markdown .task-list-item {
+    @apply list-none;
+  }
+
+  .markdown .task-list-item input {
+    @apply mr-1 align-middle;
+  }
+
+  .markdown .footnotes {
+    @apply mt-8 border-t border-slate-200 pt-4 text-sm text-slate-700;
+  }
+
+  .markdown .footnotes > ol {
+    @apply mt-2;
+  }
+
+  .markdown :where([data-footnote-ref], .footnotes li) {
+    @apply scroll-mt-6;
+  }
+}

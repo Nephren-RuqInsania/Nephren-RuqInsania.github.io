@@ -1,0 +1,27 @@
+@reference "../app/globals.css";
+
+.code {
+  display: block;
+  padding-inline-start: calc(var(--line-number-width) + 1em);
+}
+
+.lineStart {
+  position: relative;
+  display: inline-block;
+  inline-size: 0;
+  block-size: 0;
+  user-select: none;
+  pointer-events: none;
+}
+
+.lineStart::before {
+  @apply text-slate-600;
+  content: attr(data-line);
+  position: absolute;
+  inset-inline-end: 1em;
+  inset-block-end: -0.15em;
+  inline-size: var(--line-number-width);
+  line-height: 1;
+  text-align: end;
+  font-variant-numeric: tabular-nums;
+}
