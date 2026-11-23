@@ -44,7 +44,7 @@ npm run preview
 | [`src/app/`](src/app/) | 页面路由、公共布局和全局样式 |
 | [`src/components/`](src/components/) | 响应式博客目录、Markdown 正文和带行号的代码块 |
 | [`src/lib/`](src/lib/) | Markdown 内容读取、专栏与文章索引、附件引用校验 |
-| `markdown-blog/` | 首页、专栏、文章及随文章维护的附件 |
+| [`markdown-blog/`](markdown-blog/) | 首页、专栏、文章及随文章维护的附件 |
 | [`scripts/export-post-assets.mjs`](scripts/export-post-assets.mjs) | 构建后将附件复制到 `out/` 中对应的文章目录 |
 | [`.github/workflows/pages.yml`](.github/workflows/pages.yml) | 构建、检查并发布静态站点 |
 
