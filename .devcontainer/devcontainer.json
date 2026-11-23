@@ -1,0 +1,20 @@
+{
+  "name": "Next.js Blog (GitHub Pages)",
+  "image": "mcr.microsoft.com/devcontainers/javascript-node:24-bookworm",
+  "remoteUser": "node",
+  "updateRemoteUserUID": true,
+  "forwardPorts": [4173],
+  "portsAttributes": {
+    "4173": {
+      "label": "Static blog preview"
+    }
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "dsznajder.es7-react-js-snippets",
+        "bradlc.vscode-tailwindcss"
+      ]
+    }
+  }
+}
