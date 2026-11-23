@@ -6,17 +6,21 @@
     "node": "^24.0.0"
   },
   "scripts": {
+    "test": "node --test",
     "build": "next build",
     "postbuild": "node scripts/export-post-assets.mjs",
-    "preview": "test -s out/index.html && python3 -m http.server --bind 127.0.0.1 --directory out 4173"
+    "preview": "test -s out/index.html && python3 -m http.server --bind \"${PREVIEW_HOST:-127.0.0.1}\" --directory out 4173"
   },
   "dependencies": {
     "gray-matter": "^4.0.3",
+    "mdast-util-to-string": "^4.0.0",
     "next": "^16.4.6",
     "react": "^19.3.1",
     "react-dom": "^19.3.1",
     "react-markdown": "^10.1.0",
-    "remark-gfm": "^4.0.1"
+    "remark-gfm": "^4.0.1",
+    "remark-parse": "^11.0.0",
+    "unified": "^11.0.5"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4.3.5",

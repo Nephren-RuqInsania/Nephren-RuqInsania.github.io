@@ -1,44 +1,46 @@
+'use client'
+
 import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 
-const linkClass = 'block rounded px-2 py-1 hover:bg-slate-100 hover:underline'
-
-function DirectoryLinks({ columns }) {
+function DirectoryLink({ children, href, pathname, prefetch }) {
+  const current = href === pathname
   return (
-    <ul className="space-y-1">
-      <li><Link className={linkClass} href="/">首页</Link></li>
-      {columns.map(({ slug, title, posts }) => (
-        <li key={slug}>
-          <Link className={linkClass} href={`/${slug}/`}>{title}</Link>
-          {posts.length > 0 && (
-            <ul className="ml-2 space-y-1 border-l border-slate-200 pl-2 text-sm">
-              {posts.map((post) => (
-                <li key={post.slug}>
-                  <Link className={linkClass} href={`/${slug}/${post.slug}/`} prefetch={false}>
-                    {post.title}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          )}
-        </li>
-      ))}
-    </ul>
+    <Link
+      aria-current={current ? 'page' : undefined}
+      className={`block rounded-md px-3 py-1.5 wrap-anywhere hover:bg-blog-surface focus-visible:outline-blog-link${current ? ' bg-blog-surface text-blog-link' : ''}`}
+      href={href}
+      prefetch={prefetch}
+    >
+      {children}
+    </Link>
   )
 }
 
 export default function BlogDirectory({ columns }) {
+  const pathname = usePathname()?.replace(/\/?$/, '/')
   return (
-    <aside className="min-h-0 min-w-0">
-      <nav aria-label="博客目录" className="scroll-pane hidden h-full md:block md:py-12" tabIndex={0}>
-        <h2 className="mb-2 px-2 font-semibold">博客目录</h2>
-        <DirectoryLinks columns={columns} />
-      </nav>
-      <details className="rounded border border-slate-200 p-2 md:hidden">
-        <summary className="cursor-pointer px-2 py-1 font-semibold">博客目录</summary>
-        <nav aria-label="博客目录" className="scroll-pane mt-2 max-h-[35dvh]" tabIndex={0}>
-          <DirectoryLinks columns={columns} />
-        </nav>
-      </details>
-    </aside>
+    <nav aria-label="博客目录" className="font-normal">
+      <h2 className="mb-3 px-3 text-sm text-blog-link">博客目录</h2>
+      <ul className="space-y-2 text-sm">
+        <li><DirectoryLink href="/" pathname={pathname}>首页</DirectoryLink></li>
+        {columns.map(({ slug, title, posts }) => (
+          <li key={slug}>
+            <DirectoryLink href={`/${slug}/`} pathname={pathname}>{title}</DirectoryLink>
+            {posts.length > 0 && (
+              <ul className="my-1 ml-3 space-y-0.5 border-l border-blog-border pl-2">
+                {posts.map((post) => (
+                  <li key={post.slug}>
+                    <DirectoryLink href={`/${slug}/${post.slug}/`} pathname={pathname} prefetch={false}>
+                      {post.title}
+                    </DirectoryLink>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </li>
+        ))}
+      </ul>
+    </nav>
   )
 }

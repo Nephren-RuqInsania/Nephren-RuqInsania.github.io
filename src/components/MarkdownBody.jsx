@@ -1,5 +1,5 @@
 import Markdown, { defaultUrlTransform } from 'react-markdown'
-import remarkGfm from 'remark-gfm'
+import { markdownSyntaxPlugins, remarkArticleAnchors } from '@/lib/article-headings'
 import { validatePostAssetUrl } from '@/lib/post-assets'
 import NumberedCodeBlock from './NumberedCodeBlock'
 
@@ -21,7 +21,7 @@ const articleComponents = {
     return <img {...props} loading="lazy" decoding="async" />
   },
 }
-const remarkPlugins = [remarkGfm]
+const articleRemarkPlugins = [...markdownSyntaxPlugins, remarkArticleAnchors]
 const remarkRehypeOptions = {
   footnoteLabel: '脚注',
   footnoteLabelProperties: {},
@@ -38,7 +38,7 @@ export default function MarkdownBody({ children, className, post }) {
     <div className={className ? `markdown ${className}` : 'markdown'}>
       <Markdown
         components={post ? articleComponents : markdownComponents}
-        remarkPlugins={remarkPlugins}
+        remarkPlugins={post ? articleRemarkPlugins : markdownSyntaxPlugins}
         remarkRehypeOptions={remarkRehypeOptions}
         urlTransform={transformUrl}
       >

@@ -22,6 +22,12 @@ npm run preview
 
 打开 <http://localhost:4173/>。预览直接提供 `out/` 中的静态文件，不会热更新；修改文章、附件或样式后，重新运行 `npm run build` 再刷新。请使用 `npm run build` 而不是直接执行 `next build`，否则不会运行附件复制步骤。
 
+页面布局参考 [Starlight](https://starlight.astro.build/)：顶部固定站点标题与外观设置，桌面左侧显示博客目录。宽屏文章右侧显示由二、三级标题生成的「本页目录」；屏幕较窄时，博客目录和本页目录可分别展开。
+
+顶栏直接提供「主题偏好跟随」开关和主题选择下拉框。[VitePress Light](https://vitepress.dev/zh/guide/what-is-vitepress) 和 [Rust Book](https://doc.rust-lang.org/book/) 是浅色主题，[Starlight Dark](https://starlight.astro.build/guides/css-and-tailwind/) 是深色主题。没有独立的明暗设置，每个主题只需提供一套配色。
+
+全站共用一套带中文回退的系统无衬线字体，代码使用等宽字体。切换主题不改变字体，也不会下载网络字体。
+
 ## 写作
 
 | 文件路径（`markdown-blog/` 下） | 页面地址 |
@@ -33,7 +39,9 @@ npm run preview
 
 首页、专栏和文章都需要带 `title` 的 YAML 文件头；文章可以另填 `date` 和 `summary`。专栏和文章的 URL 由目录名和文件名决定，而不是由标题决定。同一专栏下，单文件和目录式文章不能使用同一个名称。
 
-带图片或附件的文章使用目录式写法，将文件放在文章的 `assets/` 下，正文用 `./assets/文件名` 引用。缺失附件会导致构建失败；即使没有被引用，`assets/` 内的非隐藏文件也会公开。完整格式见[博客写作指南](https://github.com/STWtp890/STWtp890.github.io/blob/markdown-blog/markdown-blog/README.md)。
+专栏和文章可以用 `theme: rust` 推荐全站配色。「主题偏好跟随」默认开启：有推荐时优先使用文章推荐，其次是专栏推荐；都不推荐时使用访客所选主题，初始为 VitePress Light。关闭跟随后，所有页面都使用所选主题。跟随开关和主题选择会保存在同一浏览器中，页面推荐不会覆盖它们。
+
+带图片或附件的文章使用目录式写法，将文件放在文章的 `assets/` 下，正文用 `./assets/文件名` 引用。缺失附件会导致构建失败；即使没有被引用，`assets/` 内的非隐藏文件也会公开。完整格式见[博客写作指南](markdown-blog/README.md)。
 
 正文支持 GFM 表格、任务列表和脚注，原始 HTML 按文本显示。文章代码块按源码行编号；长行折行时不新增行号，复制代码不带行号。
 
@@ -43,8 +51,9 @@ npm run preview
 | --- | --- |
 | [`src/app/`](src/app/) | 页面路由、公共布局和全局样式 |
 | [`src/components/`](src/components/) | 响应式博客目录、Markdown 正文和带行号的代码块 |
-| [`src/lib/`](src/lib/) | Markdown 内容读取、专栏与文章索引、附件引用校验 |
-| `markdown-blog/` | 首页、专栏、文章及随文章维护的附件 |
+| [`src/lib/`](src/lib/) | Markdown 内容读取、文章标题锚点、专栏与文章索引、附件引用校验 |
+| [`src/themes/`](src/themes/) | 主题注册表、色板和访客偏好 |
+| [`markdown-blog/`](markdown-blog/) | 首页、专栏、文章及随文章维护的附件 |
 | [`scripts/export-post-assets.mjs`](scripts/export-post-assets.mjs) | 构建后将附件复制到 `out/` 中对应的文章目录 |
 | [`.github/workflows/pages.yml`](.github/workflows/pages.yml) | 构建、检查并发布静态站点 |
 
