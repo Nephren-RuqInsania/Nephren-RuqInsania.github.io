@@ -8,6 +8,9 @@
   --blog-surface: #f6f6f7;
   --blog-border: #e2e2e3;
   --blog-link: #3451b2;
+  --blog-code-canvas: #fff;
+  --blog-code-text: #24292e;
+  --blog-code-muted: #586069;
   --blog-header-canvas: var(--blog-canvas);
   --blog-sidebar-canvas: #f6f6f7;
   --blog-sidebar-text: var(--blog-text);
@@ -28,6 +31,9 @@
   --blog-surface: hsl(224 10% 23%);
   --blog-border: var(--blog-surface);
   --blog-link: hsl(224 100% 85%);
+  --blog-code-canvas: #24292e;
+  --blog-code-text: #e1e4e8;
+  --blog-code-muted: #959da5;
   --blog-header-canvas: hsl(224 14% 16%);
   --blog-sidebar-canvas: var(--blog-header-canvas);
   --blog-sidebar-surface: var(--blog-surface);
