@@ -58,6 +58,8 @@ npm run preview
 
 ### GitHub Pages
 
-GitHub Pages 的发布来源为 **GitHub Actions**，在仓库的 **Settings → Pages → Build and deployment** 中配置。[发布工作流](.github/workflows/pages.yml) 在推送到 `main` 时安装依赖、构建并检查 `out/`，再部署到 [站点](https://stwtp890.github.io/)，也可从 `main` 手动触发。工作流目前不运行 `npm test`，可在提交前本地执行。
+在仓库的 **Settings → Pages → Build and deployment → Source** 中选择 **GitHub Actions**，不要选 **Deploy from a branch**。[发布工作流](.github/workflows/pages.yml) 在推送到 `main` 时安装依赖、构建并检查 `out/`，再部署到 [站点](https://nephren-ruqinsania.github.io/)，也可从 `main` 手动触发。工作流目前不运行 `npm test`，可在提交前本地执行。
+
+如果线上首页显示仓库根 `README.md`，并且 Actions 中的 `pages build and deployment` 运行包含 `Build with Jekyll`，说明 Pages 发布了分支源码，而不是 Next.js 的静态产物。将发布来源切换为 **GitHub Actions** 后，在 **Actions → Deploy blog to GitHub Pages → Run workflow** 中选择 `main` 重新部署。正确发布后，首页显示 `markdown-blog/home.md` 的正文，博客目录列出 `main` 上已有的专栏和文章。
 
 仓库只提交源码、内容、配置和 `package-lock.json`，不提交 `node_modules/`、`.next/` 或 `out/`。
