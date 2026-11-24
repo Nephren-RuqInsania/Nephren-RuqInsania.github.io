@@ -22,40 +22,245 @@
 
 @layer base {
   html {
-    --site-header-height: 6rem;
+    --site-header-height: 4rem;
+    --site-gutter: clamp(1rem, 2.5vw, 2rem);
+    --ui-radius: 0.625rem;
+    --panel-radius: 0.875rem;
     scroll-padding-top: calc(var(--site-header-height) + 1rem);
   }
 
-  @media (min-width: 40rem) {
-    html {
-      --site-header-height: 4rem;
-    }
+  :focus-visible {
+    outline: 2px solid var(--blog-link);
+    outline-offset: 3px;
   }
 }
 
 @layer components {
+  .site-wrap {
+    @apply mx-auto max-w-[96rem];
+    padding-inline: var(--site-gutter);
+  }
+
+  .site-header {
+    @apply sticky top-0 z-30 border-b border-blog-border bg-blog-header text-blog-text;
+    height: var(--site-header-height);
+  }
+
+  @supports (backdrop-filter: blur(12px)) {
+    .site-header {
+      background: color-mix(in srgb, var(--blog-header-canvas) 92%, transparent);
+      backdrop-filter: blur(12px);
+    }
+  }
+
+  .site-brand {
+    @apply flex min-w-0 items-center gap-2 text-sm font-semibold text-blog-heading sm:gap-3 sm:text-base;
+    border-radius: var(--ui-radius);
+  }
+
+  .site-brand-mark {
+    @apply grid size-8 shrink-0 place-items-center text-blog-link sm:size-9;
+    background: var(--blog-accent-surface);
+    border-radius: var(--ui-radius);
+  }
+
+  .site-layout {
+    @apply grid md:grid-cols-[minmax(0,13rem)_minmax(0,1fr)] lg:grid-cols-[minmax(0,15rem)_minmax(0,1fr)];
+    min-height: calc(100dvh - var(--site-header-height));
+    column-gap: var(--site-gutter);
+  }
+
+  .site-sidebar {
+    @apply sticky hidden self-start md:block;
+    top: calc(var(--site-header-height) + 1.5rem);
+    max-height: calc(100dvh - var(--site-header-height) - 3rem);
+    margin-block: 1.5rem;
+  }
+
   .page-frame {
-    @apply mx-auto w-full max-w-[48rem] px-5 py-8 sm:px-8 sm:py-12;
+    @apply mx-auto w-full max-w-[46rem] py-9 sm:py-14;
   }
 
   .page-frame-with-outline {
-    @apply xl:grid xl:max-w-[68rem] xl:grid-cols-[minmax(0,42rem)_minmax(0,13rem)] xl:justify-center xl:gap-10;
+    @apply xl:grid xl:max-w-[66rem] xl:grid-cols-[minmax(0,44rem)_minmax(0,14rem)] xl:justify-center xl:gap-8 2xl:gap-12;
+  }
+
+  .page-heading {
+    @apply mb-7 border-b border-blog-border pb-6 sm:mb-9 sm:pb-8;
   }
 
   .page-title {
-    @apply text-3xl leading-tight font-bold text-blog-heading wrap-anywhere sm:text-4xl;
+    @apply leading-tight font-bold text-blog-heading wrap-anywhere;
+    font-size: clamp(1.875rem, 1.2rem + 2vw, 3rem);
+    letter-spacing: -0.025em;
+  }
+
+  .panel-label {
+    @apply text-xs leading-relaxed font-semibold tracking-wide text-blog-muted;
+  }
+
+  .surface-panel {
+    @apply min-w-0 border border-blog-border bg-blog-canvas p-3 text-blog-text;
+    border-radius: var(--panel-radius);
+  }
+
+  .popup-panel {
+    @apply absolute top-full z-10 mt-2;
+    inset-inline-end: var(--site-gutter);
+    width: min(19rem, calc(100% - 2 * var(--site-gutter)));
+    max-height: calc(100dvh - var(--site-header-height) - 1.5rem);
+    box-shadow: 0 2px 5px rgb(0 0 0 / 8%), 0 12px 32px rgb(0 0 0 / 15%);
+  }
+
+  .ui-control {
+    @apply inline-flex min-h-10 items-center justify-center gap-2 border border-blog-border bg-blog-canvas px-3 text-sm font-medium text-blog-text;
+    border-radius: var(--ui-radius);
+  }
+
+  .ui-control:hover,
+  .group[open] > .ui-control {
+    @apply bg-blog-surface;
   }
 
   .disclosure-summary {
-    @apply flex cursor-pointer list-none items-center gap-1.5 rounded focus-visible:outline-blog-link;
+    @apply cursor-pointer list-none;
   }
 
   .disclosure-summary::-webkit-details-marker {
     display: none;
   }
 
+  .header-trigger {
+    @apply min-h-11 gap-1.5 px-2 sm:gap-2 sm:px-3;
+  }
+
+  @media (max-width: 24rem) {
+    .header-trigger > svg:last-child {
+      display: none;
+    }
+  }
+
+  .ui-select {
+    @apply block w-full cursor-pointer appearance-none pe-9;
+    border-color: var(--blog-control-border);
+  }
+
+  .ui-select-icon {
+    @apply pointer-events-none absolute end-3 top-1/2 -translate-y-1/2 text-blog-muted;
+  }
+
+  .ui-switch-track {
+    @apply relative block h-6 w-11 shrink-0 rounded-full border;
+    background: var(--blog-switch-off);
+    border-color: var(--blog-control-border);
+  }
+
+  .ui-switch-track::before {
+    @apply absolute block size-4 rounded-full bg-blog-canvas;
+    content: "";
+    inset: 3px auto auto 3px;
+  }
+
+  .ui-switch-input:checked + .ui-switch-track {
+    @apply border-blog-link bg-blog-link;
+  }
+
+  .ui-switch-input:checked + .ui-switch-track::before {
+    translate: 1.25rem 0;
+  }
+
+  .ui-switch-input:focus-visible + .ui-switch-track {
+    @apply outline-2 outline-offset-3 outline-blog-link;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .ui-control,
+    .directory-link,
+    .outline-link,
+    .post-list-link,
+    .ui-switch-track {
+      transition: background-color 150ms ease, border-color 150ms ease, color 150ms ease;
+    }
+
+    .ui-switch-track::before {
+      transition: translate 150ms ease;
+    }
+  }
+
+  @media (forced-colors: active) {
+    .ui-select {
+      appearance: auto;
+      padding-inline-end: 0.75rem;
+    }
+
+    .ui-select-icon {
+      display: none;
+    }
+
+    .ui-switch-input:checked + .ui-switch-track {
+      border-color: Highlight;
+      background: Highlight;
+    }
+
+    .ui-switch-track,
+    .ui-switch-track::before {
+      forced-color-adjust: none;
+      border-color: ButtonText;
+      background: ButtonFace;
+    }
+
+    .ui-switch-track::before {
+      background: ButtonText;
+    }
+
+    .ui-switch-input:checked + .ui-switch-track::before {
+      background: HighlightText;
+    }
+  }
+
+  .directory-link,
+  .outline-link {
+    @apply block wrap-anywhere;
+    border-radius: var(--ui-radius);
+  }
+
+  .directory-link {
+    @apply relative min-h-9 px-3 py-2;
+  }
+
+  .directory-link:hover,
+  .outline-link:hover {
+    @apply bg-blog-surface text-blog-link;
+  }
+
+  .directory-link[aria-current="page"] {
+    @apply font-semibold text-blog-link;
+    background: var(--blog-accent-surface);
+  }
+
+  .directory-link[aria-current="page"]::before {
+    @apply absolute w-0.5 rounded-full bg-current;
+    content: "";
+    inset-block: 0.5rem;
+    inset-inline-start: 0;
+  }
+
+  .outline-link {
+    @apply px-2 py-1.5;
+  }
+
+  .post-list-link {
+    @apply flex items-center justify-between gap-3 border border-blog-border bg-blog-canvas px-4 py-3 text-blog-text sm:px-5 sm:py-4;
+    border-radius: var(--panel-radius);
+  }
+
+  .post-list-link:hover {
+    @apply border-blog-link bg-blog-surface;
+  }
+
   .scroll-pane {
     @apply min-h-0 min-w-0 overflow-y-auto overscroll-y-contain;
+    scrollbar-width: thin;
   }
 
   .scroll-pane:focus-visible {
@@ -63,7 +268,7 @@
   }
 
   .markdown {
-    @apply space-y-4 leading-relaxed;
+    @apply space-y-4 leading-relaxed wrap-anywhere;
   }
 
   .markdown :where(h2, h3, h4, h5, h6) {
@@ -75,7 +280,7 @@
   }
 
   .markdown :where(h2[id], h3[id]) {
-    @apply max-xl:scroll-mt-10;
+    @apply max-xl:scroll-mt-12;
   }
 
   .markdown a {
@@ -91,7 +296,8 @@
   }
 
   .markdown pre {
-    @apply overflow-x-auto rounded bg-blog-surface p-4 text-sm;
+    @apply overflow-x-auto border border-blog-border bg-blog-surface p-4 text-sm;
+    border-radius: var(--panel-radius);
   }
 
   .markdown :not(pre) > code {
@@ -99,11 +305,14 @@
   }
 
   .markdown blockquote {
-    @apply border-l-2 border-blog-border bg-blog-surface px-4 py-2 text-blog-muted;
+    @apply border-s-2 border-blog-link bg-blog-surface px-4 py-2 text-blog-muted;
+    border-start-end-radius: var(--ui-radius);
+    border-end-end-radius: var(--ui-radius);
   }
 
   .markdown-table {
-    @apply max-w-full overflow-x-auto rounded-lg border border-blog-border;
+    @apply max-w-full overflow-x-auto border border-blog-border;
+    border-radius: var(--panel-radius);
     overscroll-behavior-x: contain;
   }
 
@@ -136,7 +345,7 @@
   }
 
   .markdown .task-list-item input {
-    @apply mr-1 align-middle accent-blog-link;
+    @apply me-1 size-4 align-middle accent-blog-link;
   }
 
   .markdown .footnotes {

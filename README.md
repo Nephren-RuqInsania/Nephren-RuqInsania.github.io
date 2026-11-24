@@ -2,7 +2,9 @@
 
 一个用 Markdown 写作的个人静态博客。站点使用 Next.js App Router 和 Tailwind CSS，在构建时生成首页、专栏和文章，通过 GitHub Pages 提供静态页面。
 
-当前站点提供响应式阅读布局和三套可切换的全站主题：VitePress Light、Rust Book 和 Starlight Dark。访客可以跟随页面推荐，也可以固定使用自己的主题。
+- 响应式阅读布局：宽屏显示博客目录和文章目录，窄屏可以按需展开。
+- 三套全站主题：VitePress Light、Rust Book 和 Starlight Dark，可在顶栏「外观」中选择跟随页面推荐或固定使用所选主题。
+- 文章代码块支持行号和构建时语法高亮。标注 `rust`、`js`、`proto` 等语言即可使用；代码配色跟随站点切换 GitHub Light / Dark。见[文章代码高亮](src/README.md#文章代码高亮)。
 
 ## 本地构建与预览
 
@@ -10,7 +12,7 @@
 
 ### 首次运行
 
-在仓库根目录执行以下命令。当前分支需同时包含站点源码和 `markdown-blog/home.md`，例如 `main` 或基于它创建的开发分支。
+在仓库根目录执行以下命令。完整构建需要同时包含站点源码和 `markdown-blog/home.md`，例如 `main` 或基于它创建的开发分支。`dev/site` 不含博客内容，单独检出时可以运行测试，但不能直接构建整站。
 
 ```sh
 npm ci
@@ -24,8 +26,8 @@ npm run preview
 | 命令 | 做什么、何时运行 |
 | --- | --- |
 | `npm ci` | 按 `package-lock.json` 安装锁定版本的依赖，不更新锁文件。首次检出、换环境或锁文件变更后运行；只改文章或样式时不必重复安装。 |
-| `npm test` | 用 Node.js 内置测试运行器检查目录锚点、主题元数据和偏好恢复。适合修改相关逻辑后或提交前运行；它不生成页面，也不检查浏览器中的布局和配色。 |
-| `npm run build` | 先运行 `next build`，将站点静态导出到 `out/`，再通过 `postbuild` 复制文章附件。修改文章、附件、页面或样式后重新运行。直接执行 `next build` 会跳过[附件导出步骤](scripts/README.md)。 |
+| `npm test` | 用 Node.js 内置测试运行器检查目录锚点、代码高亮、主题元数据和偏好恢复。适合修改相关逻辑后或提交前运行；它不生成页面，也不检查浏览器中的布局和配色。 |
+| `npm run build` | 先运行 `next build`，读取 Markdown、生成代码高亮并将页面导出到 `out/`，再通过 `postbuild` 复制文章附件。修改文章、附件、页面或样式后重新运行。直接执行 `next build` 会跳过[附件导出步骤](scripts/README.md)。 |
 | `npm run preview` | 确认 `out/index.html` 存在且非空，然后用 Python 启动静态文件服务器。它只读取 `out/`，不会重新构建，也没有热更新。 |
 
 ### 浏览器预览
@@ -40,7 +42,7 @@ npm run preview
 
 - [站点源码：`src/README.md`](src/README.md)
 - [构建脚本：`scripts/README.md`](scripts/README.md)
-- [博客写作指南：`markdown-blog/README.md`](markdown-blog/README.md)
+- [博客写作指南：`markdown-blog/README.md`（内容分支）](https://github.com/Nephren-RuqInsania/Nephren-RuqInsania.github.io/blob/markdown-blog/markdown-blog/README.md)
 
 博客内容的变更先汇入 `markdown-blog`，不直接提交到 `main`。见下方[内容发布流程](#内容发布流程)。
 
@@ -59,6 +61,8 @@ npm run preview
 ### GitHub Pages
 
 在仓库的 **Settings → Pages → Build and deployment → Source** 中选择 **GitHub Actions**，不要选 **Deploy from a branch**。[发布工作流](.github/workflows/pages.yml) 在推送到 `main` 时安装依赖、构建并检查 `out/`，再部署到 [站点](https://nephren-ruqinsania.github.io/)，也可从 `main` 手动触发。工作流目前不运行 `npm test`，可在提交前本地执行。
+
+仓库根目录的 `.nojekyll` 只影响分支发布是否运行 Jekyll，不会让 Pages 自动构建或发布 `out/`。
 
 如果线上首页显示仓库根 `README.md`，并且 Actions 中的 `pages build and deployment` 运行包含 `Build with Jekyll`，说明 Pages 发布了分支源码，而不是 Next.js 的静态产物。将发布来源切换为 **GitHub Actions** 后，在 **Actions → Deploy blog to GitHub Pages → Run workflow** 中选择 `main` 重新部署。正确发布后，首页显示 `markdown-blog/home.md` 的正文，博客目录列出 `main` 上已有的专栏和文章。
 

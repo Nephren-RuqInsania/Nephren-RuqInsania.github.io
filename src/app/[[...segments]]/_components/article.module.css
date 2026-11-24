@@ -37,12 +37,8 @@
   @apply mt-1;
 }
 
-.body :where(blockquote) {
-  @apply rounded-r border-l-4 border-blog-border bg-blog-surface px-4 py-2;
-}
-
 .body :where(pre) {
-  @apply rounded-lg border border-blog-border p-4 text-sm leading-relaxed;
+  @apply leading-relaxed;
   white-space: pre-wrap;
   overflow-wrap: anywhere;
 }
@@ -52,7 +48,8 @@
 }
 
 .body :where(img) {
-  @apply mx-auto h-auto max-w-full rounded-lg;
+  @apply mx-auto h-auto max-w-full;
+  border-radius: var(--panel-radius);
 }
 
 .body :where(hr) {

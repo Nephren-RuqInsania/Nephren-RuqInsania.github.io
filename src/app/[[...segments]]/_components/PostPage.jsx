@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import Icon from '@/components/Icon'
 import MarkdownBody from '@/components/MarkdownBody'
 import { getArticleHeadings } from '@/lib/article-headings'
 import { DesktopArticleOutline, MobileArticleOutline } from './ArticleOutline'
@@ -11,11 +12,12 @@ export default function PostPage({ column, post }) {
   return (
     <div className={hasOutline ? 'page-frame page-frame-with-outline' : 'page-frame'}>
       <article className="min-w-0">
-        <header className="mb-7 border-b border-blog-border pb-6 sm:mb-9 sm:pb-8">
-          <Link className="text-sm font-medium text-blog-link underline-offset-4 hover:underline focus-visible:outline-blog-link" href={`/${column.slug}/`}>
-            <span aria-hidden="true">← </span>{column.title}
+        <header className="page-heading">
+          <Link className="ui-control max-w-full justify-start text-blog-link" href={`/${column.slug}/`}>
+            <Icon name="arrow-left" />
+            <span className="min-w-0 wrap-anywhere">{column.title}</span>
           </Link>
-          <h1 className="page-title mt-3">{post.title}</h1>
+          <h1 className="page-title mt-4">{post.title}</h1>
           {post.date && (
             <p className="mt-3 text-sm text-blog-muted">
               发布于 <time dateTime={post.date}>{post.date}</time>

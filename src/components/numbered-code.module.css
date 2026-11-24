@@ -1,4 +1,12 @@
-@reference "../app/globals.css";
+.block {
+  background-color: var(--blog-code-canvas);
+  color: var(--blog-code-text);
+}
+
+.token {
+  /* The active blog palette already sets color-scheme. */
+  color: light-dark(var(--shiki-light, currentColor), var(--shiki-dark, currentColor));
+}
 
 .code {
   display: block;
@@ -15,7 +23,7 @@
 }
 
 .lineStart::before {
-  @apply text-blog-muted;
+  color: var(--blog-code-muted);
   content: attr(data-line);
   position: absolute;
   inset-inline-end: 1em;
