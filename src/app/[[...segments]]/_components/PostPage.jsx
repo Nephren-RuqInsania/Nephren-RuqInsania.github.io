@@ -8,6 +8,7 @@ import styles from './article.module.css'
 export default function PostPage({ column, post }) {
   const headings = getArticleHeadings(post.content)
   const hasOutline = headings.length > 0
+  const hasContact = post.contactUs.length > 0
 
   return (
     <div className={hasOutline ? 'page-frame page-frame-with-outline' : 'page-frame'}>
@@ -18,10 +19,18 @@ export default function PostPage({ column, post }) {
             <span className="min-w-0 wrap-anywhere">{column.title}</span>
           </Link>
           <h1 className="page-title mt-4">{post.title}</h1>
-          {post.date && (
-            <p className="mt-3 text-sm text-blog-muted">
-              发布于 <time dateTime={post.date}>{post.date}</time>
-            </p>
+          {(post.author || post.date || hasContact) && (
+            <div className="mt-3 flex flex-wrap gap-x-4 gap-y-1 text-sm text-blog-muted wrap-anywhere">
+              {post.author && <p>作者：{post.author}</p>}
+              {post.date && <p>发布于 <time dateTime={post.date}>{post.date}</time></p>}
+              {hasContact && (
+                <p>
+                  联系方式：{post.contactUs.map(({ text, href, title }, index) => (
+                    href ? <a key={index} className="text-blog-link underline underline-offset-4" href={href} title={title}>{text}</a> : text
+                  ))}
+                </p>
+              )}
+            </div>
           )}
           {post.summary && (
             <p className="mt-4 leading-relaxed text-blog-muted wrap-anywhere sm:text-lg">{post.summary}</p>

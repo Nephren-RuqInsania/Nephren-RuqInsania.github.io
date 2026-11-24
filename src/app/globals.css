@@ -112,6 +112,10 @@
     box-shadow: 0 2px 5px rgb(0 0 0 / 8%), 0 12px 32px rgb(0 0 0 / 15%);
   }
 
+  .popup-panel-start {
+    inset-inline: var(--site-gutter) auto;
+  }
+
   .ui-control {
     @apply inline-flex min-h-10 items-center justify-center gap-2 border border-blog-border bg-blog-canvas px-3 text-sm font-medium text-blog-text;
     border-radius: var(--ui-radius);
