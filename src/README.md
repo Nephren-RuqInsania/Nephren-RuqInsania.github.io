@@ -12,7 +12,8 @@
 ## 路由与排版
 
 - `app/[[...segments]]/page.jsx` 在构建时列出首页、专栏和文章路径。首页始终列出，所以没有专栏或文章时也能导出。各页面的展示组件放在同目录的 `_components/` 下。
-- 布局参考 [Starlight](https://starlight.astro.build/)。顶栏提供全站外观设置，左侧是博客目录，宽屏文章右侧是本页目录；窄屏时两个目录可分别展开。
+- 阅读布局参考 [Starlight](https://starlight.astro.build/)，按钮和开关参考 [Vercel Geist](https://vercel.com/geist/introduction)，主题下拉参考 [shadcn/ui Native Select](https://ui.shadcn.com/docs/components/native-select)。不引入组件库，保留原生下拉、开关和折叠面板的键盘交互。
+- 顶栏的「外观」面板集中放置主题选项。左侧是博客目录，宽屏文章右侧是本页目录；窄屏时两个目录可分别展开。控件圆角、面板和焦点样式在 [`app/globals.css`](app/globals.css) 统一维护。
 - [`lib/article-headings.js`](lib/article-headings.js) 从文章正文的二、三级标题生成目录和唯一锚点。目录和 Markdown 渲染使用同一套规则。
 - [`components/MarkdownBody.jsx`](components/MarkdownBody.jsx) 处理 GFM 和正文渲染，原始 HTML 按文本显示。全站字体在 [`app/globals.css`](app/globals.css) 统一设置；正文使用带中文回退的系统无衬线字体，代码和行号使用等宽字体，不下载网络字体。
 

@@ -3,8 +3,7 @@
 import { useEffect, useState } from 'react'
 import { appearanceStorageKey, defaultAppearance } from '@/themes/appearance'
 import { themeGroups } from '@/themes/theme-registry'
-
-const selectClass = 'w-36 min-w-0 rounded-md border border-blog-border bg-blog-canvas px-2 py-1.5 focus-visible:outline-blog-link'
+import Icon from './Icon'
 
 export default function AppearanceSettings() {
   const [appearance, setAppearance] = useState(defaultAppearance)
@@ -29,42 +28,38 @@ export default function AppearanceSettings() {
   }
 
   return (
-    <div className="flex min-w-0 items-center justify-between gap-3 text-sm sm:justify-end sm:gap-5">
-      <label className="flex shrink-0 cursor-pointer items-center gap-2">
-        <span className="font-medium">主题偏好跟随</span>
-        <span className="relative flex">
+    <div className="grid gap-4 p-1 text-sm">
+      <h2 className="panel-label">外观偏好</h2>
+      <div className="grid gap-1">
+        <label className="flex min-h-9 cursor-pointer items-center justify-between gap-3 font-medium">
+          <span>跟随页面推荐</span>
           <input
             type="checkbox"
             role="switch"
-            className="peer sr-only"
+            className="ui-switch-input sr-only"
             checked={appearance.follow}
             onChange={(event) => updateAppearance({ follow: event.target.checked })}
             aria-describedby="theme-follow-help"
           />
-          <span
-            aria-hidden="true"
-            className="h-5 w-9 rounded-full bg-blog-muted after:absolute after:top-0.5 after:left-0.5 after:size-4 after:rounded-full after:bg-blog-canvas peer-checked:bg-blog-link peer-checked:after:translate-x-4 peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-blog-link"
-          />
+          <span aria-hidden="true" className="ui-switch-track" />
+        </label>
+        <p id="theme-follow-help" className="text-xs leading-relaxed text-blog-muted">
+          {appearance.follow ? '页面有推荐时优先使用推荐主题。' : '所有页面都使用下方所选主题。'}
+        </p>
+      </div>
+      <label className="grid min-w-0 gap-2 border-t border-blog-border pt-3">
+        <span className="font-medium">{appearance.follow ? '备用主题' : '全站主题'}</span>
+        <span className="relative">
+          <select className="ui-control ui-select" value={appearance.theme}
+            onChange={(event) => updateAppearance({ theme: event.target.value })}>
+            {themeGroups.map(({ label, themes }) => (
+              <optgroup key={label} label={label}>
+                {themes.map(({ id, label }) => <option key={id} value={id}>{label}</option>)}
+              </optgroup>
+            ))}
+          </select>
+          <Icon name="chevron" className="ui-select-icon" />
         </span>
-      </label>
-      <p id="theme-follow-help" className="sr-only">
-        {appearance.follow ? '优先使用文章或专栏推荐，未推荐时使用所选主题。' : '所有页面都使用所选主题。'}
-      </p>
-      <label className="flex min-w-0 items-center gap-2">
-        <span className="sr-only lg:not-sr-only lg:shrink-0">主题选择</span>
-        <select
-          className={selectClass}
-          value={appearance.theme}
-          onChange={(event) => updateAppearance({ theme: event.target.value })}
-          title={appearance.follow ? '无推荐时使用此主题' : '全站使用此主题'}
-          aria-describedby="theme-follow-help"
-        >
-          {themeGroups.map(({ label, themes }) => (
-            <optgroup key={label} label={label}>
-              {themes.map(({ id, label }) => <option key={id} value={id}>{label}</option>)}
-            </optgroup>
-          ))}
-        </select>
       </label>
     </div>
   )

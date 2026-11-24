@@ -8,7 +8,7 @@ function DirectoryLink({ children, href, pathname, prefetch }) {
   return (
     <Link
       aria-current={current ? 'page' : undefined}
-      className={`block rounded-md px-3 py-1.5 wrap-anywhere hover:bg-blog-surface focus-visible:outline-blog-link${current ? ' bg-blog-surface text-blog-link' : ''}`}
+      className="directory-link"
       href={href}
       prefetch={prefetch}
     >
@@ -20,15 +20,15 @@ function DirectoryLink({ children, href, pathname, prefetch }) {
 export default function BlogDirectory({ columns }) {
   const pathname = usePathname()?.replace(/\/?$/, '/')
   return (
-    <nav aria-label="博客目录" className="font-normal">
-      <h2 className="mb-3 px-3 text-sm text-blog-link">博客目录</h2>
-      <ul className="space-y-2 text-sm">
+    <nav aria-label="博客目录">
+      <h2 className="panel-label px-3 pt-1 pb-2">博客目录</h2>
+      <ul className="space-y-1 text-sm">
         <li><DirectoryLink href="/" pathname={pathname}>首页</DirectoryLink></li>
         {columns.map(({ slug, title, posts }) => (
           <li key={slug}>
             <DirectoryLink href={`/${slug}/`} pathname={pathname}>{title}</DirectoryLink>
             {posts.length > 0 && (
-              <ul className="my-1 ml-3 space-y-0.5 border-l border-blog-border pl-2">
+              <ul className="my-1 ms-3 space-y-0.5 border-s border-blog-border ps-2 text-blog-muted">
                 {posts.map((post) => (
                   <li key={post.slug}>
                     <DirectoryLink href={`/${slug}/${post.slug}/`} pathname={pathname} prefetch={false}>

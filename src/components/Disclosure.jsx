@@ -1,9 +1,26 @@
 'use client'
 
-export default function Disclosure({ children, className = '', label, summaryClassName }) {
+import { useEffect, useRef } from 'react'
+import Icon from './Icon'
+
+export default function Disclosure({ children, className = '', icon, label, name, summaryClassName = '' }) {
+  const details = useRef(null)
+
+  useEffect(() => {
+    if (!name) return
+
+    function closeOnOutsidePointer(event) {
+      const panel = details.current
+      if (panel?.open && !panel.contains(event.target)) panel.open = false
+    }
+
+    document.addEventListener('pointerdown', closeOnOutsidePointer)
+    return () => document.removeEventListener('pointerdown', closeOnOutsidePointer)
+  }, [name])
+
   function handleClick(event) {
     const link = event.target.closest('a[href]')
-    if (!link || event.defaultPrevented || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return
+    if (!link || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return
     event.currentTarget.open = false
   }
 
@@ -15,12 +32,11 @@ export default function Disclosure({ children, className = '', label, summaryCla
   }
 
   return (
-    <details className={`group ${className}`} onClick={handleClick} onKeyDown={handleKeyDown}>
-      <summary className={`disclosure-summary ${summaryClassName}`}>
+    <details ref={details} name={name} className={`group ${className}`} onClickCapture={handleClick} onKeyDown={handleKeyDown}>
+      <summary className={`ui-control disclosure-summary ${summaryClassName}`}>
+        {icon && <Icon name={icon} />}
         <span>{label}</span>
-        <svg aria-hidden="true" viewBox="0 0 16 16" fill="none" className="size-4 shrink-0 group-open:rotate-180">
-          <path d="m4 6 4 4 4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-        </svg>
+        <Icon name="chevron" className="text-blog-muted group-open:rotate-180 motion-safe:transition-transform" />
       </summary>
       {children}
     </details>
