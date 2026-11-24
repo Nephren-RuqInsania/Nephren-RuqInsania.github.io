@@ -50,4 +50,4 @@ VitePress Light 和 Rust Book 使用 GitHub Light，Starlight Dark 使用 GitHub
 
 ## 测试
 
-在仓库根目录运行 `npm test`，检查标题锚点、代码高亮（包括 `proto` / `protobuf`）、主题元数据和偏好恢复。单元测试不需要博客内容；检查布局与配色时，请在包含有效 `markdown-blog/home.md` 的分支上[构建并预览](../docs/maintenance.md#本地构建与预览)。
+在仓库根目录运行 `npm test`，检查文章元数据、标题锚点、代码高亮（包括 `proto` / `protobuf`）、主题元数据和偏好恢复。单元测试不需要博客内容；检查布局与配色时，请在包含有效 `markdown-blog/home.md` 的分支上[构建并预览](../docs/maintenance.md#本地构建与预览)。

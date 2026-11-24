@@ -18,10 +18,18 @@ export default function PostPage({ column, post }) {
             <span className="min-w-0 wrap-anywhere">{column.title}</span>
           </Link>
           <h1 className="page-title mt-4">{post.title}</h1>
-          {post.date && (
-            <p className="mt-3 text-sm text-blog-muted">
-              发布于 <time dateTime={post.date}>{post.date}</time>
-            </p>
+          {(post.author || post.date || post.contactUs) && (
+            <div className="mt-3 flex flex-wrap gap-x-4 gap-y-1 text-sm text-blog-muted wrap-anywhere">
+              {post.author && <p>作者：{post.author}</p>}
+              {post.date && <p>发布于 <time dateTime={post.date}>{post.date}</time></p>}
+              {post.contactUs && (
+                <p>
+                  联系方式：{post.contactHref
+                    ? <a className="text-blog-link underline underline-offset-4" href={post.contactHref}>{post.contactUs}</a>
+                    : post.contactUs}
+                </p>
+              )}
+            </div>
           )}
           {post.summary && (
             <p className="mt-4 leading-relaxed text-blog-muted wrap-anywhere sm:text-lg">{post.summary}</p>

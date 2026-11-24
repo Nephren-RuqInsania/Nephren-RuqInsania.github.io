@@ -3,6 +3,7 @@ import path from 'node:path'
 import matter from 'gray-matter'
 import { cache } from 'react'
 import { parseThemeMetadata } from '../themes/theme-metadata.js'
+import { parsePostMetadata } from './post-metadata.js'
 
 export const markdownDirectory = 'markdown-blog'
 
@@ -85,7 +86,7 @@ async function readPosts(column) {
       throw new Error(`Duplicate post slug "${slug}": ${existing.sourcePath} and ${sourcePath}`)
     }
 
-    const post = await readMarkdown(segments, parseThemeMetadata)
+    const post = await readMarkdown(segments, parsePostMetadata)
     const assets = hasAssets ? await readAssetFiles(path.join(postDirectory, 'assets')) : []
     posts.set(slug, { slug, sourcePath, ...post, assets })
   }
