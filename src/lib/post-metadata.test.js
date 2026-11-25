@@ -10,12 +10,13 @@ test('article front matter reads the author and contact without changing the the
   assert.deepEqual(parsePostMetadata(data, file), {
     author: '林同学',
     contactUs: [{ text: '邮件', href: 'mailto:writer@example.com' }],
+    sequence: null,
     theme: 'rust',
   })
 })
 
 test('omitted or empty author and contact fields stay hidden', () => {
-  const empty = { author: '', contactUs: [], theme: null }
+  const empty = { author: '', contactUs: [], sequence: null, theme: null }
   assert.deepEqual(parsePostMetadata({}, file), empty)
   assert.deepEqual(parsePostMetadata({ author: '  ', 'contact-us': null }, file), empty)
 })
@@ -55,6 +56,18 @@ test('non-text article metadata reports the field and source file', () => {
   for (const [field, value] of [['author', ['林同学']], ['contact-us', { email: 'writer@example.com' }]]) {
     assert.throws(() => parsePostMetadata({ [field]: value }, file), {
       message: `${file}: ${field} must be text`,
+    })
+  }
+})
+
+test('sequence is optional and accepts only non-negative safe integers', () => {
+  assert.equal(parsePostMetadata({}, file).sequence, null)
+  for (const sequence of [0, 1, Number.MAX_SAFE_INTEGER]) {
+    assert.equal(parsePostMetadata({ sequence }, file).sequence, sequence)
+  }
+  for (const sequence of [-1, 1.5, '2', null, true, Infinity, Number.MAX_SAFE_INTEGER + 1]) {
+    assert.throws(() => parsePostMetadata({ sequence }, file), {
+      message: `${file}: sequence must be a non-negative integer`,
     })
   }
 })

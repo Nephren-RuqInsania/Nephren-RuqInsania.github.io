@@ -50,9 +50,15 @@ function parseContact(source) {
 export function parsePostMetadata(data, file) {
   const author = readOptionalText(data.author, 'author', file)
   const contactUs = readOptionalText(data['contact-us'], 'contact-us', file)
+  const { sequence } = data
+  if (sequence !== undefined && (!Number.isSafeInteger(sequence) || sequence < 0)) {
+    throw new Error(`${file}: sequence must be a non-negative integer`)
+  }
+
   return {
     ...parseThemeMetadata(data, file),
     author,
     contactUs: parseContact(contactUs),
+    sequence: sequence ?? null,
   }
 }
