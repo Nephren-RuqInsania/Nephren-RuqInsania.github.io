@@ -91,7 +91,13 @@ async function readPosts(column) {
     posts.set(slug, { slug, sourcePath, ...post, assets })
   }
 
-  return [...posts.values()].sort((a, b) => b.date.localeCompare(a.date) || a.slug.localeCompare(b.slug))
+  return [...posts.values()].sort((a, b) => {
+    const aSequence = a.sequence ?? Infinity
+    const bSequence = b.sequence ?? Infinity
+    if (aSequence !== bSequence) return aSequence - bSequence
+
+    return b.date.localeCompare(a.date) || a.slug.localeCompare(b.slug)
+  })
 }
 
 async function readColumn(slug) {

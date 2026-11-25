@@ -45,7 +45,7 @@ VitePress Light 和 Rust Book 使用 GitHub Light，Starlight Dark 使用 GitHub
 ## 主题与偏好
 
 - [`themes/theme-registry.js`](themes/theme-registry.js) 定义主题 ID、显示名称和下拉分组。[`themes/palettes.css`](themes/palettes.css) 定义各主题的全站配色、`color-scheme` 和代码块背景等变量。代码高亮的深浅由 CSS `color-scheme` 决定，而不是下拉分组或系统设置。
-- 专栏和文章可在文件头设置 `theme`，例如 `theme: starlight-dark`。[`themes/theme-metadata.js`](themes/theme-metadata.js) 校验 ID；`default` 代表 `vitepress-light`。开启跟随时，文章推荐优先于专栏推荐，没有推荐的页面（包括首页）使用访客所选主题。
+- [`themes/theme-metadata.js`](themes/theme-metadata.js) 校验并解析页面的推荐主题。文件头字段和示例见[博客写作指南](https://github.com/Nephren-RuqInsania/Nephren-RuqInsania.github.io/blob/markdown-blog/markdown-blog/README.md)。
 - [`themes/appearance.js`](themes/appearance.js) 提供默认偏好和首屏恢复脚本。初始开启跟随，备用主题为 VitePress Light；关闭跟随后，全站使用访客所选主题。访客的设置保存在浏览器中，页面推荐不会改写它。
 
 ## 测试
