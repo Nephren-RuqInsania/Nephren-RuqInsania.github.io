@@ -13,7 +13,9 @@
     "vscode": {
       "extensions": [
         "dsznajder.es7-react-js-snippets",
-        "bradlc.vscode-tailwindcss"
+        "bradlc.vscode-tailwindcss",
+        "redhat.vscode-yaml",
+        "dbaeumer.vscode-eslint"
       ]
     }
   },
